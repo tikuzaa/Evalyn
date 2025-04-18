@@ -97,3 +97,15 @@ interface InterviewFormProps {
 interface TechIconProps {
   techStack: string[];
 }
+
+// interface dummyInterviews {
+//   id: string;
+//   userId: string;
+//   role: string;
+//   type: string;
+//   techstack: string[];
+//   level: string;
+//   questions: string[];
+//   finalized: boolean;
+//   createdAt: string;
+// }
