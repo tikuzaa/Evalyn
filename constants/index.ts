@@ -203,3 +203,106 @@ export const interviewCovers = [
   "/tiktok.png",
   "/yahoo.png",
 ];
+
+export const dummyInterviews = [
+  {
+    id: "1",
+    userId: "user1",
+    role: "Frontend Developer",
+    type: "Technical",
+    techstack: ["React", "TypeScript", "Next.js", "Tailwind CSS"],
+    level: "Junior",
+    questions: ["What is React?"],
+    finalized: false,
+    createdAt: "2024-03-15T10:00:00Z"
+  },
+  {
+    id: "2",
+    userId: "user2",
+    role: "Backend Developer",
+    type: "Mixed",
+    techstack: ["Node.js", "Express", "MongoDB"],
+    level: "Mid",
+    questions: ["Explain the event loop in Node.js"],
+    finalized: true,
+    createdAt: "2024-03-16T11:00:00Z"
+  },
+  {
+    id: "3",
+    userId: "user3",
+    role: "Fullstack Developer",
+    type: "Technical",
+    techstack: ["React", "Node.js", "PostgreSQL"],
+    level: "Senior",
+    questions: ["Describe how you’d structure a fullstack app"],
+    finalized: false,
+    createdAt: "2024-03-17T09:30:00Z"
+  },
+  {
+    id: "4",
+    userId: "user4",
+    role: "Data Scientist",
+    type: "Mixed",
+    techstack: ["Python", "Pandas", "TensorFlow"],
+    level: "Junior",
+    questions: ["What is overfitting?"],
+    finalized: true,
+    createdAt: "2024-03-18T14:00:00Z"
+  },
+  {
+    id: "5",
+    userId: "user5",
+    role: "DevOps Engineer",
+    type: "Mixed",
+    techstack: ["Docker", "Kubernetes", "AWS"],
+    level: "Mid",
+    questions: ["Explain CI/CD pipeline"],
+    finalized: false,
+    createdAt: "2024-03-19T16:45:00Z"
+  },
+  {
+    id: "6",
+    userId: "user6",
+    role: "Frontend Developer",
+    type: "Technical",
+    techstack: ["Vue.js", "JavaScript", "CSS"],
+    level: "Mid",
+    questions: ["How does Vue’s reactivity system work?"],
+    finalized: true,
+    createdAt: "2024-03-20T12:00:00Z"
+  },
+  {
+    id: "7",
+    userId: "user7",
+    role: "Machine Learning Engineer",
+    type: "Mixed",
+    techstack: ["Python", "scikit-learn", "PyTorch"],
+    level: "Senior",
+    questions: ["Compare PyTorch and TensorFlow"],
+    finalized: true,
+    createdAt: "2024-03-21T18:30:00Z"
+  },
+  {
+    id: "8",
+    userId: "user8",
+    role: "Product Manager",
+    type: "Non-Technical",
+    techstack: ["Figma", "Jira", "Confluence"],
+    level: "Mid",
+    questions: ["How do you prioritize features in a roadmap?"],
+    finalized: false,
+    createdAt: "2024-03-22T08:15:00Z"
+  },
+  {
+    id: "9",
+    userId: "user9",
+    role: "QA Engineer",
+    type: "Technical",
+    techstack: ["Selenium", "Jest", "Cypress"],
+    level: "Junior",
+    questions: ["What’s the difference between unit and integration testing?"],
+    finalized: true,
+    createdAt: "2024-03-23T10:10:00Z"
+  }
+];
+
