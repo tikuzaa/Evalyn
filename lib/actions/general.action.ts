@@ -15,9 +15,9 @@ export async function createFeedback(params: CreateFeedbackParams) {
         (sentence: { role: string; content: string }) =>
           `- ${sentence.role}: ${sentence.content}\n`
       )
-      .join("");
+      .join('');
 
-    const { object } = await generateObject({
+    const { object:{totalScore, categoryScores, strengths, areasForImprovement, finalAssessment} } = await generateObject({
       model: google("gemini-2.0-flash-001", {
         structuredOutputs: false,
       }),
@@ -38,28 +38,28 @@ export async function createFeedback(params: CreateFeedbackParams) {
         "You are a professional interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories",
     });
 
-    const feedback = {
-      interviewId: interviewId,
-      userId: userId,
-      totalScore: object.totalScore,
-      categoryScores: object.categoryScores,
-      strengths: object.strengths,
-      areasForImprovement: object.areasForImprovement,
-      finalAssessment: object.finalAssessment,
-      createdAt: new Date().toISOString(),
-    };
+    const feedback = await db.collection('feedback').add({
+      interviewId,
+      userId,
+      totalScore,
+      categoryScores,
+      strengths,
+      areasForImprovement,
+      finalAssessment,
+      createdAt: new Date().toISOString()
+    })
 
-    let feedbackRef;
+    // let feedbackRef;
 
-    if (feedbackId) {
-      feedbackRef = db.collection("feedback").doc(feedbackId);
-    } else {
-      feedbackRef = db.collection("feedback").doc();
-    }
+    // if (feedbackId) {
+    //   feedbackRef = db.collection("feedback").doc(feedbackId);
+    // } else {
+    //   feedbackRef = db.collection("feedback").doc();
+    // }
 
-    await feedbackRef.set(feedback);
+    // await feedbackRef.set(feedback);
 
-    return { success: true, feedbackId: feedbackRef.id };
+    return { success: true, feedbackId: feedback.id };
   } catch (error) {
     console.error("Error saving feedback:", error);
     return { success: false };
