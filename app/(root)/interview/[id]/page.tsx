@@ -13,7 +13,7 @@ import DisplayTechIcons from "@/components/DisplayTechIcons";
 
 const InterviewDetails = async ({ params }: RouteParams) => {
   const { id } = await params;
-
+    console.log(id)
   const user = await getCurrentUser();
 
   const interview = await getInterviewById(id);
@@ -48,7 +48,7 @@ const InterviewDetails = async ({ params }: RouteParams) => {
       </div>
 
       <Agent
-        userName={user?.name!}
+        userName={user?.name || ''}
         userId={user?.id}
         interviewId={id}
         type="interview"
