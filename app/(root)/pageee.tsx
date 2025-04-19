@@ -1,25 +1,45 @@
 import React from "react";
-import { getCurrentUser } from "@/lib/actions/auth.action";
-import { getInterviewsByUserId, getLatestInterviews } from "@/lib/actions/general.action";
-import Hero from "@/components/landing/Hero";
-import InterviewsSection from "@/components/landing/InterviewsSection";
-import AvailableInterviews from "@/components/landing/AvailableInterviews";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import InterviewCard from "@/components/InterviewCard";
+import { getCurrentUser } from "@/lib/actions/auth.action";
+import {
+  getInterviewsByUserId,
+  getLatestInterviews,
+} from "@/lib/actions/general.action";
 
-export default async function Page() {
+const Page = async () => {
   const user = await getCurrentUser();
 
   const [userInterviews, latestInterviews] = await Promise.all([
-    getInterviewsByUserId(user?.id!),
-    getLatestInterviews({ userId: user?.id! })
+    await getInterviewsByUserId(user?.id!),
+    await getLatestInterviews({ userId: user?.id! }),
   ]);
 
   const hasPastInterviews = userInterviews?.length! > 0;
   const hasUpcomingInterviews = latestInterviews?.length! > 0;
-
   return (
-    <main className="container mx-auto px-4 py-8 space-y-16 max-w-7xl">
-      <Hero />
+    <>
+      <section className="card-cta">
+        <div className="flex flex-col gap-6 max-w-lg">
+          <h2>Get Interview-Ready with AI-Powered Practice & Feedback</h2>
+          <p className="text-lg">
+            Practice on real interview questions and get instant feedback
+          </p>
+          <Button asChild className="btn-primary max-sm:w-full">
+            <Link href="/interview"> Start an Interview</Link>
+          </Button>
+        </div>
+        <Image
+          src="/robot.png"
+          alt="robo-dude"
+          width={400}
+          height={400}
+          className="max-sm:hidden"
+        />
+      </section>
+
       <section className="flex flex-col gap-6 mt-8">
         <h2>Your Interviews</h2>
         <div className="interviews-section">
@@ -32,18 +52,7 @@ export default async function Page() {
           )}
         </div>
       </section>
-      
-      {/* <InterviewsSection 
-        title="Your Interviews"
-        interviews={userInterviews || []}
-        emptyMessage="You haven't taken any interviews yet"
-        hasPastInterviews={hasPastInterviews}
-      /> */}
-      
-      {/* <AvailableInterviews 
-        interviews={latestInterviews || []}
-        hasUpcomingInterviews={hasUpcomingInterviews}
-      /> */}
+
       <section className="flex flex-col gap-6 mt-8">
         <h2>Give an Interview</h2>
         <div className="interviews-section">
@@ -56,6 +65,7 @@ export default async function Page() {
           )}
         </div>
       </section>
-    </main>
+    </>
   );
-}
+};
+export default Page;
