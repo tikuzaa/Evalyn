@@ -44,7 +44,7 @@ const InterviewCard = ( { interviewId, userId, role, type, techstack, createdAt}
                 <DisplayTechIcons techStack={techstack} />
 
                 <Button className="btn-primary">
-                    <Link href={feedback?`/interview/${interviewId}/feedback`:`/interview/${interviewId}`}>
+                    <Link href={feedback?`/interview/${userId}/feedback`:`/interview/${userId}`}>
                         {feedback ? 'Check feedback' : 'View Interview'}
                     </Link>
                 </Button>
