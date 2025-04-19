@@ -77,11 +77,11 @@ export async function getInterviewById(id: string): Promise<Interview | null> {
 export async function getFeedbackByInterviewId(
   params: GetFeedbackByInterviewIdParams
 ): Promise<Feedback | null> {
-  const { interviewId, userId } = params;
+  const { id, userId } = params;
 
   const feedback = await db
     .collection("feedback")
-    .where("interviewId", "==", interviewId)
+    .where("interviewId", "==", id)
     .where("userId", "==", userId)
     .limit(1)
     .get();
