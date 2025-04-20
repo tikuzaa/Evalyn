@@ -2,23 +2,29 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/layout/ModeToggle";
 import { MenuIcon, XIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import { isAuthenticated } from "@/lib/actions/auth.action";
-
-import { signOut } from "@/lib/actions/auth.action";
+import { isAuthenticated, logoutAndRedirect } from "@/lib/actions/auth.action";
+import { Logo } from "../landing/Logo";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const pathname = usePathname();
+  const [user, setUser] = useState<boolean>(false);
 
   useEffect(() => {
+    const findUser = async () => {
+      const isUserAuthenticated = await isAuthenticated();
+      setUser(isUserAuthenticated);
+    };
+    findUser();
+    console.log("user", user);
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
@@ -43,10 +49,9 @@ export default function Header() {
   };
 
   const navLinks = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "/home" },
     { name: "Interviews", href: "/interview" },
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Pricing", href: "/pricing" },
   ];
 
   return (
@@ -60,26 +65,13 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2">
-          <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2.5" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                className="h-9 w-9 text-primary relative bottom-0.5"
-              >
-                <path d="M12 8V4H8"></path>
-                <rect width="16" height="12" x="4" y="8" rx="2"></rect>
-                <path d="M2 14h2"></path>
-                <path d="M20 14h2"></path>
-                <path d="M15 13v2"></path>
-                <path d="M9 13v2"></path>
-              </svg>
-           <h2 className="text-primary-100">Evalyn</h2>
-       </Link>
+
+            <Link href="/" className="flex items-center gap-2">
+              {/* <Image src="/logo.svg" alt="logo" width={38} height={32} /> */}
+              <Logo />
+              <h2 className="text-primary-100">Evalyn</h2>
+            </Link>
+
 
             <nav className="hidden md:flex space-x-1">
               {navLinks.map((link) => (
@@ -99,25 +91,35 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-4">
-          {!loggedIn ? (
-        // If NOT logged in
-        <div className="hidden md:flex items-center gap-2">
-          <Button asChild variant="outline" size="sm">
-            <Link href="/sign-in">Log in</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link href="/sign-up">Sign up</Link>
-          </Button>
-        </div>
-      ) : (null)}
+            <div className="hidden md:flex items-center gap-2">
+              {!user ? (
+                <>
+                  <Button asChild variant="outline" size="sm">
+                    <Link href="/sign-in">Log in</Link>
+                  </Button>
+                  <Button asChild size="sm">
+                    <Link href="/sign-up">Sign up</Link>
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  onClick={async () => {
+                    await logoutAndRedirect();
+                    setUser(false);
+                  }}
+                  className="btn"
+                >
+                  Logout
+                </Button>
+              )}
+            </div>
 
             <ModeToggle />
             {loggedIn ? (
         <Button onClick={handleLogout} asChild variant="destructive" size="sm" className="h-9">
                 <Link href="/">Logout <Image src="/logout.png" alt="" className="invert" width={16} height={30}></Image></Link>
               </Button>
-      ) : (null)}
-            
+      ) : (null)}  
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="inline-flex md:hidden items-center justify-center rounded-md p-2 text-foreground hover:bg-accent"
@@ -159,12 +161,26 @@ export default function Header() {
                 ))}
               </nav>
               <div className="flex flex-col space-y-2 pt-2">
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/auth/login">Log in</Link>
-                </Button>
-                <Button asChild size="sm">
-                  <Link href="/auth/signup">Sign up</Link>
-                </Button>
+                {!user ? (
+                  <>
+                    <Button asChild variant="outline" size="sm">
+                      <Link href="/sign-in">Log in</Link>
+                    </Button>
+                    <Button asChild size="sm">
+                      <Link href="/sign-up">Sign up</Link>
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    onClick={async () => {
+                      await logoutAndRedirect();
+                      setUser(false);
+                    }}
+                    className="btn"
+                  >
+                    Logout
+                  </Button>
+                )}
               </div>
             </div>
           </motion.div>

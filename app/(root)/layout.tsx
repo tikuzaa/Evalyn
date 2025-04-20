@@ -1,28 +1,8 @@
-// import {ReactNode} from "react";
-// import Image from "next/image";
-// import Link from "next/link";
-import { redirect } from "next/navigation";
-import { isAuthenticated } from "@/lib/actions/auth.action";
+// import { redirect } from "next/navigation";
+// import { isAuthenticated } from "@/lib/actions/auth.action";
 
-// const RootLayout =async ({children}: {children: ReactNode}) => {
-//   const isUserAuthenticated = await isAuthenticated();
-//   if (!isUserAuthenticated) redirect("/sign-in");
-
-//   return (
-//     <div className="root-layout">
-//       <nav>
-//         <Link href="/" className="flex items-center gap-2">
-//           <Image src="/logo.svg" alt="logo" width={38} height={32} />
-//           <h2 className="text-primary-100">Evalyn</h2>
-//         </Link>
-//       </nav>
-//       {children}
-//     </div>
-//   );
-// }
-
-// export default RootLayout;
-
+// const isUserAuthenticated = await isAuthenticated();
+  // if (!isUserAuthenticated) redirect("/sign-in");
 
 import '../globals.css';
 import type { Metadata } from 'next';
@@ -34,7 +14,7 @@ import Footer from '@/components/layout/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'InterviewAI - Master Your Interviews with AI-Powered Practice',
+  title: 'Evalyn - Master Your Interviews with AI-Powered Practice',
   description: 'Practice for interviews with our AI interviewer. Get personalized feedback and improve your skills.',
 };
 
@@ -43,8 +23,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isUserAuthenticated = await isAuthenticated();
-  if (!isUserAuthenticated) redirect("/sign-in");
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
@@ -56,7 +35,7 @@ export default async function RootLayout({
         >
           <div className="relative min-h-screen flex flex-col">
             <Header />
-            <div className="flex-grow min-h-screen">
+            <div className="flex-grow min-h-screen lg:max-w-7xl mx-auto">
               {children}
             </div>
             <Footer />
