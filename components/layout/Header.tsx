@@ -13,6 +13,7 @@ import { Logo } from "../landing/Logo";
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const pathname = usePathname();
   const [user, setUser] = useState<boolean>(false);
 
@@ -27,10 +28,25 @@ export default function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
+    const checkAuth = async () => {
+      const result = await isAuthenticated();
+      setLoggedIn(result);
+    };
+
+    checkAuth();
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      window.location.href = "/"; // or use router.push("/login")
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   const navLinks = [
     { name: "Home", href: "/home" },
@@ -49,11 +65,13 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center gap-8">
+
             <Link href="/" className="flex items-center gap-2">
               {/* <Image src="/logo.svg" alt="logo" width={38} height={32} /> */}
               <Logo />
               <h2 className="text-primary-100">Evalyn</h2>
             </Link>
+
 
             <nav className="hidden md:flex space-x-1">
               {navLinks.map((link) => (
@@ -97,7 +115,11 @@ export default function Header() {
             </div>
 
             <ModeToggle />
-
+            {loggedIn ? (
+        <Button onClick={handleLogout} asChild variant="destructive" size="sm" className="h-9">
+                <Link href="/">Logout <Image src="/logout.png" alt="" className="invert" width={16} height={30}></Image></Link>
+              </Button>
+      ) : (null)}  
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="inline-flex md:hidden items-center justify-center rounded-md p-2 text-foreground hover:bg-accent"
