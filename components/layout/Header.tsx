@@ -2,19 +2,28 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/layout/ModeToggle";
 import { MenuIcon, XIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { isAuthenticated, logoutAndRedirect } from "@/lib/actions/auth.action";
+import { Logo } from "../landing/Logo";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [user, setUser] = useState<boolean>(false);
 
   useEffect(() => {
+    const findUser = async () => {
+      const isUserAuthenticated = await isAuthenticated();
+      setUser(isUserAuthenticated);
+    };
+    findUser();
+    console.log("user", user);
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
@@ -24,10 +33,9 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "/home" },
     { name: "Interviews", href: "/interview" },
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Pricing", href: "/pricing" },
   ];
 
   return (
@@ -41,10 +49,11 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.svg" alt="logo" width={38} height={32} />
-           <h2 className="text-primary-100">Evalyn</h2>
-       </Link>
+            <Link href="/" className="flex items-center gap-2">
+              {/* <Image src="/logo.svg" alt="logo" width={38} height={32} /> */}
+              <Logo />
+              <h2 className="text-primary-100">Evalyn</h2>
+            </Link>
 
             <nav className="hidden md:flex space-x-1">
               {navLinks.map((link) => (
@@ -65,12 +74,26 @@ export default function Header() {
 
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
-              <Button asChild variant="outline" size="sm">
-                <Link href="/sign-in">Log in</Link>
-              </Button>
-              <Button asChild size="sm">
-                <Link href="/sign-up">Sign up</Link>
-              </Button>
+              {!user ? (
+                <>
+                  <Button asChild variant="outline" size="sm">
+                    <Link href="/sign-in">Log in</Link>
+                  </Button>
+                  <Button asChild size="sm">
+                    <Link href="/sign-up">Sign up</Link>
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  onClick={async () => {
+                    await logoutAndRedirect();
+                    setUser(false);
+                  }}
+                  className="btn"
+                >
+                  Logout
+                </Button>
+              )}
             </div>
 
             <ModeToggle />
@@ -116,12 +139,26 @@ export default function Header() {
                 ))}
               </nav>
               <div className="flex flex-col space-y-2 pt-2">
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/auth/login">Log in</Link>
-                </Button>
-                <Button asChild size="sm">
-                  <Link href="/auth/signup">Sign up</Link>
-                </Button>
+                {!user ? (
+                  <>
+                    <Button asChild variant="outline" size="sm">
+                      <Link href="/sign-in">Log in</Link>
+                    </Button>
+                    <Button asChild size="sm">
+                      <Link href="/sign-up">Sign up</Link>
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    onClick={async () => {
+                      await logoutAndRedirect();
+                      setUser(false);
+                    }}
+                    className="btn"
+                  >
+                    Logout
+                  </Button>
+                )}
               </div>
             </div>
           </motion.div>

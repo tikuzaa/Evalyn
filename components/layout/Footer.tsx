@@ -34,7 +34,7 @@ export default function Footer() {
           
           <div>
             <h3 className="font-medium mb-4">Product</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-sm list-none">
               <li>
                 <Link href="/interview" className="text-muted-foreground hover:text-foreground transition-colors">
                   Start Interview
@@ -60,7 +60,7 @@ export default function Footer() {
           
           <div>
             <h3 className="font-medium mb-4">Resources</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-sm list-none">
               <li>
                 <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">
                   Blog
@@ -86,7 +86,7 @@ export default function Footer() {
           
           <div>
             <h3 className="font-medium mb-4">Company</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-sm list-none">
               <li>
                 <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
                   About Us

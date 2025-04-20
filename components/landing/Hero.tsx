@@ -54,8 +54,8 @@ export default function Hero() {
             <Image 
               src="/robot.png" 
               alt="AI Interview Assistant" 
-              width={400} 
-              height={400}
+              width={600} 
+              height={600}
               className="object-contain transform hover:scale-105 transition-transform duration-500"
             />
           </div>
