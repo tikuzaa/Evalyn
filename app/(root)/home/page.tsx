@@ -4,9 +4,6 @@ import {
   getInterviewsByUserId,
   getLatestInterviews,
 } from "@/lib/actions/general.action";
-import Hero from "@/components/landing/Hero";
-import InterviewsSection from "@/components/landing/InterviewsSection";
-import AvailableInterviews from "@/components/landing/AvailableInterviews";
 import InterviewCard from "@/components/InterviewCard";
 import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
@@ -53,17 +50,6 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* <InterviewsSection 
-        title="Your Interviews"
-        interviews={userInterviews || []}
-        emptyMessage="You haven't taken any interviews yet"
-        hasPastInterviews={hasPastInterviews}
-      /> */}
-
-      {/* <AvailableInterviews 
-        interviews={latestInterviews || []}
-        hasUpcomingInterviews={hasUpcomingInterviews}
-      /> */}
       <section className="flex flex-col gap-6 mt-8">
         <h2>Give an Interview</h2>
         <div className="interviews-section">
