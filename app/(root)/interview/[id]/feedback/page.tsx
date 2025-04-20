@@ -142,7 +142,7 @@ const Feedback = async ({ params }: RouteParams) => {
   });
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="container mx-auto px-4 py-8 w-7xl">
       <Card className="border-none shadow-none">
         <CardContent className="space-y-8">
           {/* Header */}
